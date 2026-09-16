@@ -1,0 +1,39 @@
+name: "ART: bake News/Events into static HTML"
+
+# When the team edits News or Events in the admin editor, the Worker commits the
+# JSON. This re-renders those sections into index.html so they're in the raw HTML
+# (visible to search + AI crawlers, not just JS-executing browsers).
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "data/art-news.json"
+      - "data/art-events.json"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  bake:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Render News/Events into index.html
+        run: node scripts/bake-content.mjs
+      - name: Commit if the static HTML changed
+        run: |
+          if ! git diff --quiet index.html; then
+            git config user.name "art-site-bot"
+            git config user.email "actions@github.com"
+            git add index.html
+            git commit -m "Bake News/Events into static HTML"
+            git pull --rebase origin main
+            git push
+          else
+            echo "No change to bake."
+          fi

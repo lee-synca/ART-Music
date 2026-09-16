@@ -52,6 +52,9 @@
   function fill(id, url, key, render) {
     var el = document.getElementById(id);
     if (!el) return;
+    // These sections are baked into the static HTML at build time (scripts/bake-content.mjs)
+    // so crawlers see them. Only fetch/render client-side as a fallback if that's missing.
+    if (el.children.length) return;
     fetch(url, { cache: "no-cache" })
       .then(function (r) { return r.json(); })
       .then(function (data) {
