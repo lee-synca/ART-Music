@@ -34,6 +34,10 @@ jobs:
             git add index.html data/art-releases.json data/art-videos.json
             git commit -m "ART auto-update: new Spotify/YouTube content"
             git push
+            # Ping IndexNow so Bing/Copilot re-index the new content immediately
+            KEY=$(cat .indexnow-key)
+            curl -s -o /dev/null -w "IndexNow: %{http_code}\n" \
+              "https://api.indexnow.org/indexnow?url=https://artmusic.co.nz/&key=${KEY}&keyLocation=https://artmusic.co.nz/${KEY}.txt" || true
           else
             echo "No changes."
           fi
