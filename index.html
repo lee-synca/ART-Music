@@ -45,14 +45,23 @@
   {
     "@context": "https://schema.org",
     "@type": "MusicGroup",
+    "@id": "https://artmusic.co.nz/#art",
     "name": "A.R.T",
     "url": "https://artmusic.co.nz",
+    "logo": "https://artmusic.co.nz/assets/img/logo-dark.png",
+    "image": "https://artmusic.co.nz/assets/img/hero-desktop.jpg",
     "genre": ["R&B", "Island Soul", "Poly Reggae"],
     "foundingLocation": { "@type": "Place", "name": "Wellington, New Zealand" },
     "member": [
       { "@type": "Person", "name": "Anastasia" },
       { "@type": "Person", "name": "Rosetta" },
       { "@type": "Person", "name": "T-R3X" }
+    ],
+    "award": [
+      "Best Pacific Group — Pacific Music Awards 2026",
+      "Best Pacific Music Video — Pacific Music Awards 2026",
+      "Best Pacific Group — Pacific Music Awards 2025",
+      "Radio Airplay Award — Pacific Music Awards 2025"
     ],
     "sameAs": [
       "https://open.spotify.com/artist/6cJ05UAQ2Yab1UBcf5CrBU",
@@ -63,6 +72,32 @@
       "https://www.muzic.nz/artists/a-r-t/"
     ],
     "email": "ikonmusicnz@gmail.com"
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "MusicEvent",
+    "name": "Kingston Calling",
+    "startDate": "2027-02-19",
+    "endDate": "2027-02-20",
+    "eventStatus": "https://schema.org/EventScheduled",
+    "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+    "location": {
+      "@type": "Place",
+      "name": "Bay Oval",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Mount Maunganui",
+        "addressRegion": "Bay of Plenty",
+        "addressCountry": "NZ"
+      }
+    },
+    "image": "https://artmusic.co.nz/assets/img/event-kingston-calling.jpg",
+    "url": "https://artmusic.co.nz/#live",
+    "performer": { "@id": "https://artmusic.co.nz/#art" },
+    "description": "A.R.T join the Friday lineup at Kingston Calling 2027 at Bay Oval, Mount Maunganui, alongside Maoli, Stan Walker, SOJA, Arrested Development, Katchafire and Hori Shaw, with SIX60 and Fat Freddy's Drop closing out Saturday."
   }
   </script>
 </head>
