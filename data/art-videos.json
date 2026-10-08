@@ -1,10 +1,14 @@
 {
   "_comment": "Curated A.R.T music videos for the Watch section. feature = large hero video; row = 4 smaller ones. The daily job promotes any NEW '(Official Music Video)' upload into the feature slot and shuffles the rest down, skipping lyric videos, vlogs and shorts. 'known' tracks MV IDs already seen so nothing is added twice.",
   "feature": {
-    "id": "trg3Pa8sFJA",
-    "title": "Look At Me"
+    "id": "ylDeVZhm0pU",
+    "title": "A.R.T, MITI - Die From A Broken Heart"
   },
   "row": [
+    {
+      "id": "trg3Pa8sFJA",
+      "title": "Look At Me"
+    },
     {
       "id": "yrYaWdbqR3s",
       "title": "When He Was Mine"
@@ -16,10 +20,6 @@
     {
       "id": "2AcLr3iw5yA",
       "title": "Pele Moana"
-    },
-    {
-      "id": "GJJrW3xrTl8",
-      "title": "La Vie Dansante"
     }
   ],
   "known": [
@@ -35,6 +35,7 @@
     "pDH2kFc26DQ",
     "Wy-5Ibl2QFg",
     "c-BFZXzBhE0",
-    "trg3Pa8sFJA"
+    "trg3Pa8sFJA",
+    "ylDeVZhm0pU"
   ]
 }
