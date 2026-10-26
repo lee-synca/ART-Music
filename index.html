@@ -84,31 +84,6 @@
   {
     "@context": "https://schema.org",
     "@type": "MusicEvent",
-    "name": "A Night With A.R.T",
-    "startDate": "2026-11-21T21:30",
-    "eventStatus": "https://schema.org/EventScheduled",
-    "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
-    "location": {
-      "@type": "Place",
-      "name": "The Rogue & Vagabond",
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "Wellington",
-        "addressRegion": "Wellington",
-        "addressCountry": "NZ"
-      }
-    },
-    "image": "https://artmusic.co.nz/assets/img/event-night-with-art.jpg",
-    "url": "https://artmusic.co.nz/#live",
-    "performer": { "@id": "https://artmusic.co.nz/#art" },
-    "description": "A.R.T celebrate their album release live at The Rogue & Vagabond, Wellington — doors 9:30PM, Saturday 21 November 2026."
-  }
-  </script>
-
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "MusicEvent",
     "name": "Kingston Calling",
     "startDate": "2027-02-19",
     "endDate": "2027-02-20",
@@ -128,31 +103,6 @@
     "url": "https://artmusic.co.nz/#live",
     "performer": { "@id": "https://artmusic.co.nz/#art" },
     "description": "A.R.T join the Friday lineup at Kingston Calling 2027 at Bay Oval, Mount Maunganui, alongside Maoli, Stan Walker, SOJA, Arrested Development, Katchafire and Hori Shaw, with SIX60 and Fat Freddy's Drop closing out Saturday."
-  }
-  </script>
-
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "MusicEvent",
-    "name": "Sound Collective",
-    "startDate": "2027-02-20",
-    "eventStatus": "https://schema.org/EventScheduled",
-    "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
-    "location": {
-      "@type": "Place",
-      "name": "Broadwater Parklands",
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "Gold Coast",
-        "addressRegion": "Queensland",
-        "addressCountry": "AU"
-      }
-    },
-    "image": "https://artmusic.co.nz/assets/img/event-sound-collective.jpg",
-    "url": "https://artmusic.co.nz/#live",
-    "performer": { "@id": "https://artmusic.co.nz/#art" },
-    "description": "A.R.T join Maoli, Stan Walker, Katchafire, SOJA, Arrested Development, Bradamon, Riah and more at Broadwater Parklands, Gold Coast, on Saturday 20 February 2027. 18+."
   }
   </script>
 </head>
@@ -175,7 +125,7 @@
             <a href="#watch">Watch</a>
             <a href="#story">Story</a>
             <a href="#news">News</a>
-            <a href="#live">Events</a>
+            <a href="#live">Live</a>
           </nav>
           <a class="btn btn--white" href="https://open.spotify.com/artist/6cJ05UAQ2Yab1UBcf5CrBU">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>Listen
@@ -221,7 +171,7 @@
       <a href="#music" class="pillnav__link">Music</a>
       <a href="#watch" class="pillnav__link">Watch</a>
       <a href="#story" class="pillnav__link">Story</a>
-      <a href="#live" class="pillnav__link">Events</a>
+      <a href="#live" class="pillnav__link">Live</a>
       <a href="#connect" class="pillnav__link">Connect</a>
     </nav>
   </header>
@@ -533,9 +483,7 @@
         </div>
         <!-- Event cards render from data/art-events.json (edited via the admin panel) -->
         <div class="event-list" id="events-list"><!-- AUTO:EVENTS -->
-          <div class="card event"><a class="event__poster" href="assets/img/event-night-with-art.jpg" target="_blank" rel="noopener" aria-label="View the A Night With A.R.T poster"><img src="assets/img/event-night-with-art.jpg" alt="A Night With A.R.T album release party poster — Saturday 21 November 2026, The Rogue &amp; Vagabond, Wellington, 9:30PM"></a><div class="event__body"><div class="label label--coral">Album Release Party · Saturday</div><h3 class="event__name">A Night With A.R.T</h3><div class="event__date">Saturday 21 November 2026</div><div class="event__venue">The Rogue &amp; Vagabond, Wellington</div><p class="event__lineup">A.R.T celebrate their album release live — doors 9:30PM at The Rogue &amp; Vagabond, Wellington.</p><div class="event__actions"><a class="btn btn--ink" href="https://www.ticketspace.nz" target="_blank" rel="noopener">Tickets</a><a class="btn btn--soft" href="#connect">Get show alerts</a></div></div></div>
           <div class="card event"><a class="event__poster" href="assets/img/event-kingston-calling.jpg" target="_blank" rel="noopener" aria-label="View the Kingston Calling poster"><img src="assets/img/event-kingston-calling.jpg" alt="Kingston Calling festival poster — 19-20 February 2027, Bay Oval, Mount Maunganui"></a><div class="event__body"><div class="label label--coral">Upcoming · Friday</div><h3 class="event__name">Kingston Calling</h3><div class="event__date">19–20 February 2027</div><div class="event__venue">Bay Oval, Mount Maunganui</div><p class="event__lineup">A.R.T join the Friday lineup alongside Maoli, Stan Walker, SOJA, Arrested Development, Katchafire &amp; Hori Shaw — with SIX60 and Fat Freddy’s Drop closing out Saturday.</p><div class="event__actions"><span class="btn btn--ink event__soon" aria-disabled="true">Tickets on sale soon</span><a class="btn btn--soft" href="#connect">Get show alerts</a></div></div></div>
-          <div class="card event"><a class="event__poster" href="assets/img/event-sound-collective.jpg" target="_blank" rel="noopener" aria-label="View the Sound Collective poster"><img src="assets/img/event-sound-collective.jpg" alt="Sound Collective festival poster — Saturday 20 February 2027, Broadwater Parklands, Gold Coast"></a><div class="event__body"><div class="label label--coral">Upcoming · Saturday</div><h3 class="event__name">Sound Collective</h3><div class="event__date">Saturday 20 February 2027</div><div class="event__venue">Broadwater Parklands, Gold Coast</div><p class="event__lineup">A.R.T join Maoli, Stan Walker, Katchafire, SOJA, Arrested Development, Bradamon, Riah &amp; more at Broadwater Parklands, Gold Coast. 18+.</p><div class="event__actions"><span class="btn btn--ink event__soon" aria-disabled="true">Tickets on sale soon</span><a class="btn btn--soft" href="#connect">Get show alerts</a></div></div></div>
           <!-- /AUTO:EVENTS --></div>
         <p class="live__booking">More shows announced soon. Booking &amp; management — <a href="mailto:ikonmusicnz@gmail.com">ikonmusicnz@gmail.com</a></p>
       </div>

@@ -1,16 +1,6 @@
 {
   "events": [
     {
-      "eyebrow": "Album Release Party · Saturday",
-      "name": "A Night With A.R.T",
-      "date_display": "Saturday 21 November 2026",
-      "venue": "The Rogue & Vagabond, Wellington",
-      "lineup": "A.R.T celebrate their album release live — doors 9:30PM at The Rogue & Vagabond, Wellington.",
-      "poster": "assets/img/event-night-with-art.jpg",
-      "poster_alt": "A Night With A.R.T album release party poster — Saturday 21 November 2026, The Rogue & Vagabond, Wellington, 9:30PM",
-      "tickets_url": "https://www.ticketspace.nz"
-    },
-    {
       "eyebrow": "Upcoming · Friday",
       "name": "Kingston Calling",
       "date_display": "19–20 February 2027",
@@ -18,16 +8,6 @@
       "lineup": "A.R.T join the Friday lineup alongside Maoli, Stan Walker, SOJA, Arrested Development, Katchafire & Hori Shaw — with SIX60 and Fat Freddy’s Drop closing out Saturday.",
       "poster": "assets/img/event-kingston-calling.jpg",
       "poster_alt": "Kingston Calling festival poster — 19-20 February 2027, Bay Oval, Mount Maunganui",
-      "tickets_url": ""
-    },
-    {
-      "eyebrow": "Upcoming · Saturday",
-      "name": "Sound Collective",
-      "date_display": "Saturday 20 February 2027",
-      "venue": "Broadwater Parklands, Gold Coast",
-      "lineup": "A.R.T join Maoli, Stan Walker, Katchafire, SOJA, Arrested Development, Bradamon, Riah & more at Broadwater Parklands, Gold Coast. 18+.",
-      "poster": "assets/img/event-sound-collective.jpg",
-      "poster_alt": "Sound Collective festival poster — Saturday 20 February 2027, Broadwater Parklands, Gold Coast",
       "tickets_url": ""
     }
   ]
