@@ -21,7 +21,7 @@
     return '' +
       '<div class="card event">' +
         '<a class="event__poster" href="' + attr(ev.poster) + '" target="_blank" rel="noopener" aria-label="View the ' + attr(ev.name) + ' poster">' +
-          '<img src="' + attr(ev.poster) + '" alt="' + attr(ev.poster_alt) + '">' +
+          '<img src="' + attr(ev.poster) + '" alt="' + attr(ev.poster_alt) + '" loading="lazy">' +
         '</a>' +
         '<div class="event__body">' +
           '<div class="label label--coral">' + esc(ev.eyebrow || "Upcoming") + '</div>' +
@@ -39,7 +39,7 @@
   function newsCard(n) {
     return '' +
       '<article class="card news-card">' +
-        '<img class="news-card__img" src="' + attr(n.image) + '" alt="' + attr(n.image_alt) + '">' +
+        '<img class="news-card__img" src="' + attr(n.image) + '" alt="' + attr(n.image_alt) + '" loading="lazy" width="800" height="450">' +
         '<div class="news-card__body">' +
           '<div class="label label--coral">' + esc(n.label) + '</div>' +
           '<h3>' + esc(n.headline) + '</h3>' +

@@ -80,7 +80,7 @@ const singlesByName = new Map(
   albums.filter((a) => a.album_type === "single").map((a) => [a.name, a])
 );
 const placeholderRe =
-  /<a class="play([^"]*)" href="https:\/\/open\.spotify\.com\/artist\/[^"]*" aria-label="Play ([^"]+?)( on Spotify| on YouTube)?">/g;
+  /<a class="play([^"]*)" href="https:\/\/open\.spotify\.com\/artist\/[^"]*" aria-label="Play ([^"]+?)( on Spotify| on YouTube)?"[^>]*>/g;
 const toRefresh = [];
 let pm;
 while ((pm = placeholderRe.exec(html)) !== null) {
@@ -91,7 +91,7 @@ for (const r of toRefresh) {
   const detail = await api(`https://api.spotify.com/v1/albums/${r.album.id}?market=NZ`, auth);
   const t = detail.tracks.items[0];
   const link = t ? `https://open.spotify.com/track/${t.id}` : `https://open.spotify.com/album/${r.album.id}`;
-  html = html.replace(r.tag, `<a class="play${r.cls}" href="${attr(link)}" aria-label="${attr(`Play ${r.name} on Spotify`)}">`);
+  html = html.replace(r.tag, `<a class="play${r.cls}" href="${attr(link)}" aria-label="${attr(`Play ${r.name} on Spotify`)}" target="_blank" rel="noopener">`);
   changed = true;
   console.log(`Refreshed link: ${r.name} -> ${link}`);
 }
@@ -116,15 +116,17 @@ for (const a of fresh) {
   if (!already) {
     const row = `<div class="track">
               <div class="track__meta">
-                <img class="track__art" src="${attr(cover)}" alt="">
+                <img class="track__art" loading="lazy" width="56" height="56" src="${attr(cover)}" alt="">
                 <div>
                   <div class="track__title">${esc(full.name)}</div>
                   <div class="track__sub">${sub}</div>
                 </div>
               </div>
-              <a class="play" href="${attr(link)}" aria-label="${attr(`Play ${full.name} on Spotify`)}"><svg width="14" height="14" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></a>
+              <a class="play play--grad" href="${attr(link)}" aria-label="${attr(`Play ${full.name} on Spotify`)}" target="_blank" rel="noopener"><svg width="14" height="14" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></a>
             </div>
             `;
+    // the newest row carries the highlight — demote whichever row had it before
+    html = html.replace(/<a class="play play--grad"/g, '<a class="play"').replace(/>Latest single · /g, ">Single · ");
     html = html.replace("<!-- AUTO:NEW-RELEASES -->", "<!-- AUTO:NEW-RELEASES -->\n            " + row.trimEnd());
     console.log(`Added row: ${full.name} (${year})`);
   } else {
@@ -145,13 +147,19 @@ if (latest) {
     .replace(/<!-- AUTO:LATEST-COVER -->[\s\S]*?<!-- \/AUTO:LATEST-COVER -->/,
       `<!-- AUTO:LATEST-COVER --><img src="${attr(latest.cover640)}" alt="${attr(`A.R.T — ${latest.name} cover`)}" width="640" height="640"><!-- /AUTO:LATEST-COVER -->`)
     .replace(/<!-- AUTO:LATEST-LINK -->[\s\S]*?<!-- \/AUTO:LATEST-LINK -->/,
-      `<!-- AUTO:LATEST-LINK --><a class="btn btn--grad" href="${attr(latest.link)}">
+      `<!-- AUTO:LATEST-LINK --><a class="btn btn--grad" href="${attr(latest.link)}" target="_blank" rel="noopener">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>Play ${esc(latest.name)}
               </a><!-- /AUTO:LATEST-LINK -->`);
   console.log(`Latest drop is now: ${latest.name}`);
 }
 
 if (changed) {
+  // keep the sitemap's lastmod honest so crawlers know the page changed
+  try {
+    const SITEMAP = join(root, "sitemap.xml");
+    const today = new Date().toISOString().slice(0, 10);
+    writeFileSync(SITEMAP, readFileSync(SITEMAP, "utf8").replace(/<lastmod>[^<]*<\/lastmod>/, `<lastmod>${today}</lastmod>`));
+  } catch {}
   writeFileSync(INDEX, html);
   writeFileSync(DATA, JSON.stringify(known, null, 2) + "\n");
   console.log(`Done — ${fresh.length} new release(s), ${toRefresh.length} link(s) refreshed.`);
