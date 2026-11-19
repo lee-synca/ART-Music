@@ -26,16 +26,42 @@ const url = (s) => {
   return "https://" + s.replace(/^\/+/, "");
 };
 
+// Finished shows stay on the page (it shows how much A.R.T play live), marked "Past show"
+// and listed after the upcoming ones. A show counts as finished the day after its last
+// date, in New Zealand time. The date comes from an optional "date" field (YYYY-MM-DD),
+// otherwise from the last "21 November 2026"-style date in date_display.
+const MONTHS = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"];
+function endDate(ev) {
+  if (ev.date && /^\d{4}-\d{2}-\d{2}$/.test(String(ev.date).trim())) return String(ev.date).trim();
+  const re = /(\d{1,2})\s+(January|February|March|April|May|June|July|August|September|October|November|December)\s+(\d{4})/gi;
+  let m, last = null;
+  while ((m = re.exec(String(ev.date_display || "")))) last = m;
+  if (!last) return null;
+  const mm = String(MONTHS.indexOf(last[2].toLowerCase()) + 1).padStart(2, "0");
+  return `${last[3]}-${mm}-${String(last[1]).padStart(2, "0")}`;
+}
+const todayNZ = process.env.ART_TODAY || new Intl.DateTimeFormat("en-CA", { timeZone: "Pacific/Auckland" }).format(new Date());
+const isPast = (ev) => { const d = endDate(ev); return !!d && d < todayNZ; };
+// Upcoming first (in the order the team set), then past shows, most recent first.
+function orderEvents(list) {
+  const up = list.filter((ev) => !isPast(ev));
+  const past = list.filter(isPast).sort((a, b) => (endDate(b) < endDate(a) ? -1 : endDate(b) > endDate(a) ? 1 : 0));
+  return up.concat(past);
+}
+
 function eventCard(ev) {
-  const ticket = ev.tickets_url && ev.tickets_url.trim()
+  const past = isPast(ev);
+  const ticket = past ? ""
+    : ev.tickets_url && ev.tickets_url.trim()
     ? `<a class="btn btn--ink" href="${attr(url(ev.tickets_url))}" target="_blank" rel="noopener">Tickets</a>`
     : `<span class="btn btn--ink event__soon" aria-disabled="true">Tickets on sale soon</span>`;
-  return `<div class="card event">` +
+  return `<div class="card event${past ? " event--past" : ""}">` +
       `<a class="event__poster" href="${attr(ev.poster)}" target="_blank" rel="noopener" aria-label="View the ${attr(ev.name)} poster">` +
         `<img src="${attr(ev.poster)}" alt="${attr(ev.poster_alt)}" loading="lazy">` +
+        (past ? `<span class="event__banner">Past show</span>` : "") +
       `</a>` +
       `<div class="event__body">` +
-        `<div class="label label--coral">${esc(ev.eyebrow || "Upcoming")}</div>` +
+        `<div class="label ${past ? "label--past" : "label--coral"}">${esc(past ? "Past show" : ev.eyebrow || "Upcoming")}</div>` +
         `<h3 class="event__name">${esc(ev.name)}</h3>` +
         `<div class="event__date">${esc(ev.date_display)}</div>` +
         `<div class="event__venue">${esc(ev.venue)}</div>` +
@@ -80,11 +106,11 @@ function bake(html, containerId, name, cardsHtml) {
 }
 
 let html = readFileSync(INDEX, "utf8");
-const events = readItems("art-events.json", "events");
+const events = orderEvents(readItems("art-events.json", "events"));
 const news = readItems("art-news.json", "news");
 
 html = bake(html, "events-list", "EVENTS", events.map(eventCard).join("\n          "));
 html = bake(html, "news-grid", "NEWS", news.map(newsCard).join("\n          "));
 
 writeFileSync(INDEX, html);
-console.log(`Baked ${news.length} news item(s) and ${events.length} event(s) into index.html.`);
+console.log(`Baked ${news.length} news item(s) and ${events.length} event(s) (${events.filter(isPast).length} past) into index.html.`);

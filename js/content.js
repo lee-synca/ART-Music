@@ -14,17 +14,41 @@
     return "https://" + s.replace(/^\/+/, "");
   };
 
+  // Same rules as scripts/bake-content.mjs: a show is "past" the day after its last date (NZ time).
+  var MONTHS = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"];
+  function endDate(ev) {
+    if (ev.date && /^\d{4}-\d{2}-\d{2}$/.test(String(ev.date).trim())) return String(ev.date).trim();
+    var re = /(\d{1,2})\s+(January|February|March|April|May|June|July|August|September|October|November|December)\s+(\d{4})/gi, m, last = null;
+    while ((m = re.exec(String(ev.date_display || "")))) last = m;
+    if (!last) return null;
+    var mm = String(MONTHS.indexOf(last[2].toLowerCase()) + 1); if (mm.length < 2) mm = "0" + mm;
+    var dd = String(last[1]); if (dd.length < 2) dd = "0" + dd;
+    return last[3] + "-" + mm + "-" + dd;
+  }
+  var todayNZ;
+  try { todayNZ = new Intl.DateTimeFormat("en-CA", { timeZone: "Pacific/Auckland" }).format(new Date()); }
+  catch (e) { todayNZ = new Date().toISOString().slice(0, 10); }
+  function isPast(ev) { var d = endDate(ev); return !!d && d < todayNZ; }
+  function orderEvents(list) {
+    var up = list.filter(function (ev) { return !isPast(ev); });
+    var past = list.filter(isPast).sort(function (a, b) { return endDate(b) < endDate(a) ? -1 : endDate(b) > endDate(a) ? 1 : 0; });
+    return up.concat(past);
+  }
+
   function eventCard(ev) {
-    var ticket = ev.tickets_url && ev.tickets_url.trim()
+    var past = isPast(ev);
+    var ticket = past ? ""
+      : ev.tickets_url && ev.tickets_url.trim()
       ? '<a class="btn btn--ink" href="' + attr(url(ev.tickets_url)) + '" target="_blank" rel="noopener">Tickets</a>'
       : '<span class="btn btn--ink event__soon" aria-disabled="true">Tickets on sale soon</span>';
     return '' +
-      '<div class="card event">' +
+      '<div class="card event' + (past ? ' event--past' : '') + '">' +
         '<a class="event__poster" href="' + attr(ev.poster) + '" target="_blank" rel="noopener" aria-label="View the ' + attr(ev.name) + ' poster">' +
           '<img src="' + attr(ev.poster) + '" alt="' + attr(ev.poster_alt) + '" loading="lazy">' +
+          (past ? '<span class="event__banner">Past show</span>' : '') +
         '</a>' +
         '<div class="event__body">' +
-          '<div class="label label--coral">' + esc(ev.eyebrow || "Upcoming") + '</div>' +
+          '<div class="label ' + (past ? 'label--past' : 'label--coral') + '">' + esc(past ? "Past show" : ev.eyebrow || "Upcoming") + '</div>' +
           '<h3 class="event__name">' + esc(ev.name) + '</h3>' +
           '<div class="event__date">' + esc(ev.date_display) + '</div>' +
           '<div class="event__venue">' + esc(ev.venue) + '</div>' +
@@ -49,7 +73,7 @@
       '</article>';
   }
 
-  function fill(id, url, key, render) {
+  function fill(id, url, key, render, order) {
     var el = document.getElementById(id);
     if (!el) return;
     // These sections are baked into the static HTML at build time (scripts/bake-content.mjs)
@@ -59,11 +83,12 @@
       .then(function (r) { return r.json(); })
       .then(function (data) {
         var items = (data && data[key]) || [];
+        if (order) items = order(items);
         el.innerHTML = items.map(render).join("");
       })
       .catch(function () { /* leave section as-is on failure */ });
   }
 
-  fill("events-list", "data/art-events.json", "events", eventCard);
+  fill("events-list", "data/art-events.json", "events", eventCard, orderEvents);
   fill("news-grid", "data/art-news.json", "news", newsCard);
 })();

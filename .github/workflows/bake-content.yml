@@ -10,6 +10,10 @@ on:
     paths:
       - "data/art-news.json"
       - "data/art-events.json"
+  schedule:
+    # Daily at 12:30 UTC = 1:30am NZ daylight time (12:30am in winter), so a show is
+    # marked "Past show" in the early hours after the night it was played.
+    - cron: "30 12 * * *"
   workflow_dispatch:
 
 permissions:
